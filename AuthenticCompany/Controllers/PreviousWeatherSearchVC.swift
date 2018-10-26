@@ -54,7 +54,7 @@ extension PreviousWeatherSearchVC:UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PreviousSearchWeatherDataCell", for: indexPath) as! PreviousSearchWeatherDataCell
         cell.delegate = self
-        cell.model = self.cachedObjects[indexPath.row]
+        cell.model = self.cachedObjects[self.cachedObjects.count - 1 - indexPath.row]
         return cell
     }
     

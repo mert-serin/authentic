@@ -66,6 +66,7 @@ class PreviousSearchWeatherDataCell: UICollectionViewCell {
         
         weatherLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(self)
+            make.width.equalTo(75)
             make.right.equalTo(-20)
         }
         
@@ -74,7 +75,7 @@ class PreviousSearchWeatherDataCell: UICollectionViewCell {
             make.height.equalTo(1)
         }
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGetureRecognizer))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGetureRecognizer))
         tapGesture.numberOfTapsRequired = 1
         self.addGestureRecognizer(tapGesture)
     }

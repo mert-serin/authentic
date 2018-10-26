@@ -26,7 +26,6 @@ class AWeatherInformationView:UIView{
     lazy var weatherTypeLabel:UILabel = {
         var l = UILabel()
         l.textAlignment = .center
-
         return l
     }()
     
@@ -73,12 +72,13 @@ class AWeatherInformationView:UIView{
         
         weatherLocationLabel.snp.makeConstraints { (make) in
             make.left.equalTo(weatherImageView.snp.right).offset(20)
-            make.right.equalTo(weatherLabel.snp.left).offset(-20)
+            make.right.equalTo(weatherLabel.snp.left).offset(-30)
             make.centerY.equalTo(self)
         }
         
         weatherLabel.snp.makeConstraints { (make) in
             make.right.equalTo(-20)
+            make.width.equalTo(75)
             make.centerY.equalTo(containerView)
         }
     }

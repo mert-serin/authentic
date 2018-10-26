@@ -12,7 +12,6 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
 
     lazy var mapView:MKMapView = {
         var m = MKMapView()
-        m.isZoomEnabled = false
         m.showsUserLocation = true
         m.isUserInteractionEnabled = true
         return m
@@ -40,35 +39,6 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
         mapView.setCamera(mapCamera, animated: true)
         self.getDoubleTappedLocation(coordinate: locValue, shouldNavigate: false)
         self.mapView.setRegion(region, animated: false)
-    }
-    
-    private func showWeatherAfterAPIRequest(model:WeatherDataResponseModel){
-        if currentWeatherView == nil{
-            let v = AWeatherInformationView()
-            self.view.addSubview(v)
-            
-            v.snp.makeConstraints { (make) in
-                make.left.equalTo(20)
-                make.right.equalTo(-20)
-                make.bottom.equalTo(-20)
-                make.height.equalTo(0)
-            }
-        
-            v.snp.updateConstraints({ (make) in
-                make.height.equalTo(100)
-            })
-            
-            
-            UIView.animate(withDuration: 0.2, delay: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
-                v.layoutIfNeeded()
-            })
-            
-            v.model = model
-            self.currentWeatherView = v
-            
-        }else{
-            currentWeatherView!.model = model
-        }
     }
     
     private func setupViews(){
@@ -127,6 +97,35 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
         }
     }
     
+    //Shows pop-up after first retrieve data from API
+    private func showWeatherAfterAPIRequest(model:WeatherDataResponseModel){
+        if currentWeatherView == nil{
+            let v = AWeatherInformationView()
+            self.view.addSubview(v)
+            
+            v.snp.makeConstraints { (make) in
+                make.left.equalTo(20)
+                make.right.equalTo(-20)
+                make.bottom.equalTo(-20)
+                make.height.equalTo(0)
+            }
+            
+            v.snp.updateConstraints({ (make) in
+                make.height.equalTo(100)
+            })
+            
+            
+            UIView.animate(withDuration: 0.2, delay: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                v.layoutIfNeeded()
+            })
+            
+            v.model = model
+            self.currentWeatherView = v
+            
+        }else{
+            currentWeatherView!.model = model
+        }
+    }
 
 
 }

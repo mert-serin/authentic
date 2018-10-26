@@ -74,12 +74,14 @@ class WeatherDetailVC: UIViewController {
         
         weatherLocationLabel.snp.makeConstraints { (make) in
             make.top.equalTo(weatherTypeLabel.snp.bottom).offset(30)
-            make.left.equalTo(40)
+            make.right.equalTo(weatherLabel.snp.left).offset(-30)
+            make.left.equalTo(20)
         }
         
         weatherLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(weatherLocationLabel)
-            make.right.equalTo(-40)
+            make.width.equalTo(75)
+            make.right.equalTo(-20)
         }
         self.view.backgroundColor = .white
     }
