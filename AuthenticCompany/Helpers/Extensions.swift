@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import MapKit
 extension Int {
     func toAPIResponseType() -> APIResponseTypes {
         if self == 200 {
@@ -43,5 +43,19 @@ extension Int {
         else {
             return .Undefined
         }
+    }
+}
+
+extension CLLocationCoordinate2D{
+    func ToCLLocation() -> CLLocation{
+        return CLLocation(latitude: self.latitude, longitude: self.longitude)
+    }
+}
+
+extension Double {
+    /// Rounds the double to decimal places value
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }

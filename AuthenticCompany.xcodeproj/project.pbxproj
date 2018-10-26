@@ -18,6 +18,7 @@
 		613667B821835C1700BC5B67 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613667B721835C1700BC5B67 /* Reachability.swift */; };
 		613667BA21835C3200BC5B67 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613667B921835C3200BC5B67 /* Extensions.swift */; };
 		613667BC21835CBE00BC5B67 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613667BB21835CBE00BC5B67 /* URLConstants.swift */; };
+		613667BE21835D4200BC5B67 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613667BD21835D4200BC5B67 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		613667B721835C1700BC5B67 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		613667B921835C3200BC5B67 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		613667BB21835CBE00BC5B67 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
+		613667BD21835D4200BC5B67 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B32FE01D3C82D6E57E87F4C5 /* Pods_AuthenticCompany.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AuthenticCompany.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				613667B021835B9E00BC5B67 /* APIManager.swift */,
+				613667BD21835D4200BC5B67 /* LocationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				613667BC21835CBE00BC5B67 /* URLConstants.swift in Sources */,
 				61366799218358C600BC5B67 /* AppDelegate.swift in Sources */,
 				613667BA21835C3200BC5B67 /* Extensions.swift in Sources */,
+				613667BE21835D4200BC5B67 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
