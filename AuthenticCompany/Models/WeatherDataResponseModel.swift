@@ -17,19 +17,33 @@ class WeatherDataResponseModel:Unmarshaling{
         self.current = try object.value(for: "current")
         self.location = try object.value(for: "location")
     }
+    
+    func convertToRealmObject() -> WeatherCacheModel{
+        var model = WeatherCacheModel()
+        
+        model.conditionIcon = current.condition.icon
+        model.conditionText = current.condition.text
+        model.feelsLikeC = current.feelsLikeC
+        model.feelsLikeF = current.feelsLikeF
+        model.locationCountry = location.country
+        model.locationLat = location.lat
+        model.locationLon = location.lon
+        model.locationName = location.name
+        model.locationRegion = location.region
+        
+        return model
+    }
 }
 
 class WeatherCurrentModel:Unmarshaling{
     
     var feelsLikeC:Double
     var feelsLikeF:Double
-    var tempC:Double
     var condition:WeatherCurrentConditionModel
     
     required init(object: MarshaledObject) throws {
         self.feelsLikeC = try object.value(for: "feelslike_c")
         self.feelsLikeF = try object.value(for: "feelslike_f")
-        self.tempC = try object.value(for: "temp_c")
         self.condition = try object.value(for: "condition")
     }
 }

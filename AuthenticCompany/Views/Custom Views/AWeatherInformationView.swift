@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Nuke
 class AWeatherInformationView:UIView{
     
     lazy var containerView:UIView = {
@@ -20,29 +20,31 @@ class AWeatherInformationView:UIView{
     
     lazy var weatherImageView:UIImageView = {
         var i = UIImageView()
-        i.backgroundColor = .black
         return i
     }()
     
     lazy var weatherTypeLabel:UILabel = {
         var l = UILabel()
         l.textAlignment = .center
+
         return l
     }()
     
     lazy var weatherLocationLabel:UILabel = {
        var l = UILabel()
+        l.textColor = .black
         return l
     }()
     
     lazy var weatherLabel:UILabel = {
         var l = UILabel()
+        l.textColor = .black
         return l
     }()
     
     var model:WeatherDataResponseModel?{
         didSet{
-            
+            loadDetails()
         }
     }
     
@@ -72,7 +74,7 @@ class AWeatherInformationView:UIView{
         weatherLocationLabel.snp.makeConstraints { (make) in
             make.left.equalTo(weatherImageView.snp.right).offset(20)
             make.right.equalTo(weatherLabel.snp.left).offset(-20)
-            make.top.equalTo(weatherLocationLabel)
+            make.centerY.equalTo(self)
         }
         
         weatherLabel.snp.makeConstraints { (make) in
@@ -83,6 +85,14 @@ class AWeatherInformationView:UIView{
     
     
     private func loadDetails(){
-        
+        if model != nil{
+            var temp = "https://\(model!.current.condition.icon.dropFirst(2))"
+
+            Nuke.loadImage(with: URL(string:temp)!, into: weatherImageView)
+            weatherTypeLabel.text = model!.current.condition.text
+
+            weatherLocationLabel.text = model!.location.region + " " + model!.location.name + " ," + model!.location.country
+            weatherLabel.text = "\(model!.current.feelsLikeC) C"
+        }
     }
 }

@@ -8,13 +8,17 @@
 
 import UIKit
 import MapKit
-class MapVC: UIViewController {
+class MapVC: UIViewController,UIGestureRecognizerDelegate{
 
     lazy var mapView:MKMapView = {
         var m = MKMapView()
+        m.isZoomEnabled = false
         m.showsUserLocation = true
+        m.isUserInteractionEnabled = true
         return m
     }()
+    
+    var currentWeatherView:AWeatherInformationView?
     
     private var currentZoomScale = 0.3
     
@@ -25,6 +29,11 @@ class MapVC: UIViewController {
         setupViews()
         LocationManager.shared.askPermissionForLocationServices()
         NotificationCenter.default.addObserver(self, selector: #selector(getWeatherAfterLocationUpdate), name: Notification.Name(rawValue: "getWeatherAfterLocationUpdate"), object: nil)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action:#selector(MapVC.handleTap(_:)))
+        tapGesture.delegate = self
+        tapGesture.numberOfTapsRequired = 2
+        mapView.addGestureRecognizer(tapGesture)
     }
     
     @objc func getWeatherAfterLocationUpdate(){
@@ -34,30 +43,30 @@ class MapVC: UIViewController {
         let mapCamera = MKMapCamera(lookingAtCenter: locValue, fromDistance: 1000, pitch: 1000, heading: 1000)
         mapView.setCamera(mapCamera, animated: true)
         
-        APIManager().makeRequest(method: "GET", path: URLConstants.getWeatherDataURL + "?key=153693f66ced48d393b155828182610&q=\(locValue.latitude),\(locValue.longitude)", parameters: nil, headers: nil) { (response) in
-            guard let json = response.object as? [String:AnyObject] else{
-                //TO-DO alerts
-                return
-            }
-            if response.isSuccess{
-                do{
-                   let model = try WeatherDataResponseModel(object: json)
-                    self.showWeatherAfterAPIRequest()
-                }catch{
-                    //TO-DO alert
-                    print(error)
-                }
-            }else{
-                //TO-DO alert
-                return
-            }
-        }
+        self.getDoubleTappedLocation(coordinate: locValue, shouldNavigate: false)
         
         self.mapView.setRegion(region, animated: false)
     }
     
-    private func showWeatherAfterAPIRequest(){
-        
+    private func showWeatherAfterAPIRequest(model:WeatherDataResponseModel){
+        if currentWeatherView == nil{
+            var v = AWeatherInformationView()
+            self.view.addSubview(v)
+            
+            v.snp.makeConstraints { (make) in
+                make.left.equalTo(20)
+                make.right.equalTo(-20)
+                make.bottom.equalTo(-20)
+                make.height.equalTo(100)
+            }
+            
+            
+            v.model = model
+            self.currentWeatherView = v
+            
+        }else{
+            currentWeatherView!.model = model
+        }
     }
     
     private func setupViews(){
@@ -67,5 +76,50 @@ class MapVC: UIViewController {
             make.top.bottom.left.right.equalTo(0)
         }
     }
+    
+    @objc func handleTap(_ sender: UIGestureRecognizer)
+    {
+        if sender.state == UIGestureRecognizerState.ended {
+            
+            let touchPoint = sender.location(in: mapView)
+            let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+            getDoubleTappedLocation(coordinate: touchCoordinate, shouldNavigate: true)
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    private func getDoubleTappedLocation(coordinate:CLLocationCoordinate2D, shouldNavigate:Bool){
+        APIManager().makeRequest(method: "GET", path: URLConstants.getWeatherDataURL + "?key=153693f66ced48d393b155828182610&q=\(coordinate.latitude),\(coordinate.longitude)", parameters: nil, headers: nil) { (response) in
+            guard let json = response.object as? [String:AnyObject] else{
+                //TO-DO alerts
+                return
+            }
+            if response.isSuccess{
+                do{
+                    let model = try WeatherDataResponseModel(object: json)
+                    if shouldNavigate{
+                        let vc = WeatherDetailVC()
+                        vc.model = model
+                        CacheManager.shared.saveObject(model: model.convertToRealmObject())
+                        self.present(vc, animated: true, completion: nil)
+                    }else{
+                        self.showWeatherAfterAPIRequest(model:model)
+                    }
+                    
+                }catch{
+                    //TO-DO alert
+                    print(error)
+                }
+            }else{
+                //TO-DO alert
+                return
+            }
+        }
+    }
+    
+
 
 }

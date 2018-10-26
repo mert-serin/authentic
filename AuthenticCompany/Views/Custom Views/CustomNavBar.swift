@@ -6,56 +6,67 @@
 //  Copyright © 2018 Mert Serin. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import SnapKit
+
 class CustomNavBar: UIView {
     
     lazy var containerView:UIView = {
-        var v = UIView()
-        v.backgroundColor = .white
-        return v
+        var i = UIView()
+        i.backgroundColor = .white
+        return i
     }()
     
-    lazy var segmentedControl:UISegmentedControl = {
-        var segments = ["Map", "Previous"]
-        var s = UISegmentedControl(items: segments)
-        s.selectedSegmentIndex = 0
-        s.addTarget(self, action: #selector(segmentedControlChanged(segmentedControl:)), for: .valueChanged)
-        return s
+    lazy var leftBarButton:UIButton = {
+        var u = UIButton()
+        u.setImage(#imageLiteral(resourceName: "back-ic"), for: .normal)
+        u.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 5, right: 0)
+        return u
+    }()
+    
+    lazy var titleLabel:UILabel = {
+        var a = UILabel()
+        a.adjustsFontSizeToFitWidth = true
+        a.numberOfLines = 1
+        a.font = UIFont(name: "NunitoSans-Regular", size: 18)
+        return a
     }()
     
     lazy var seperatorView:UIView = {
         var v = UIView()
-        v.backgroundColor = getColor(249, 249, 249)
+        v.backgroundColor = getColor(235, 235, 235)
         return v
     }()
     
-    var delegate:CustomNavBarDelegate?
     
     override func didMoveToWindow() {
+        
         self.addSubview(containerView)
-        self.containerView.addSubview(segmentedControl)
-        self.containerView.addSubview(seperatorView)
+        containerView.addSubview(leftBarButton)
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(seperatorView)
+        
         
         containerView.snp.makeConstraints { (make) in
-            make.top.bottom.left.right.equalTo(0)
+            make.left.right.top.bottom.equalTo(0)
         }
         
-        segmentedControl.snp.makeConstraints { (make) in
+        leftBarButton.snp.makeConstraints { (make) in
+            make.left.equalTo(0)
+            make.width.height.equalTo(40)
+            make.bottom.equalTo(0)
+        }
+        
+        titleLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(containerView)
-            make.bottom.equalTo(-8)
+            make.bottom.equalTo(-10)
         }
         
         seperatorView.snp.makeConstraints { (make) in
-            make.bottom.left.right.equalTo(0)
+            make.left.right.bottom.equalTo(0)
             make.height.equalTo(1)
         }
-    }
-    
-    @objc private func segmentedControlChanged(segmentedControl:UISegmentedControl){
-        if delegate != nil{
-            self.delegate!.didSegmentChanged(index:segmentedControl.selectedSegmentIndex)
-        }
+        
     }
     
 }

@@ -10,8 +10,8 @@ import UIKit
 
 class MainVC: UIViewController {
     
-    lazy var navBar:CustomNavBar = {
-        var v = CustomNavBar()
+    lazy var navBar:CustomNavBarWithSegmentedControl = {
+        var v = CustomNavBarWithSegmentedControl()
         v.delegate = self
         return v
     }()
