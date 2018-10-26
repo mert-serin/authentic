@@ -35,15 +35,29 @@ class MapVC: UIViewController {
         mapView.setCamera(mapCamera, animated: true)
         
         APIManager().makeRequest(method: "GET", path: URLConstants.getWeatherDataURL + "?key=153693f66ced48d393b155828182610&q=\(locValue.latitude),\(locValue.longitude)", parameters: nil, headers: nil) { (response) in
-            print(response.object)
+            guard let json = response.object as? [String:AnyObject] else{
+                //TO-DO alerts
+                return
+            }
             if response.isSuccess{
-                
+                do{
+                   let model = try WeatherDataResponseModel(object: json)
+                    self.showWeatherAfterAPIRequest()
+                }catch{
+                    //TO-DO alert
+                    print(error)
+                }
             }else{
-                
+                //TO-DO alert
+                return
             }
         }
         
         self.mapView.setRegion(region, animated: false)
+    }
+    
+    private func showWeatherAfterAPIRequest(){
+        
     }
     
     private func setupViews(){

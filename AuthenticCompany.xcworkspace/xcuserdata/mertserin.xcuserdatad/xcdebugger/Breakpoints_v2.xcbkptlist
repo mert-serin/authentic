@@ -2,4 +2,69 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AuthenticCompany/Controllers/MapVC.swift"
+            timestampString = "562263411.018034"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "getWeatherAfterLocationUpdate()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (AuthenticCompany.OperationResult) -&gt; () in AuthenticCompany.MapVC.getWeatherAfterLocationUpdate() -&gt; ()"
+                  moduleName = "AuthenticCompany"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mertserin/Desktop/iOS%20Projects/AuthenticCompany/AuthenticCompany/Controllers/MapVC.swift"
+                  timestampString = "562263411.026293"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "504">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (AuthenticCompany.OperationResult) -&gt; () in AuthenticCompany.MapVC.getWeatherAfterLocationUpdate() -&gt; ()"
+                  moduleName = "AuthenticCompany"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mertserin/Desktop/iOS%20Projects/AuthenticCompany/AuthenticCompany/Controllers/MapVC.swift"
+                  timestampString = "562263411.029076"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "985">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (AuthenticCompany.OperationResult) -&gt; () in AuthenticCompany.MapVC.getWeatherAfterLocationUpdate() -&gt; ()"
+                  moduleName = "AuthenticCompany"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mertserin/Desktop/iOS%20Projects/AuthenticCompany/AuthenticCompany/Controllers/MapVC.swift"
+                  timestampString = "562263411.031822"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "1016">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
