@@ -25,15 +25,11 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .yellow
         setupViews()
         LocationManager.shared.askPermissionForLocationServices()
         NotificationCenter.default.addObserver(self, selector: #selector(getWeatherAfterLocationUpdate), name: Notification.Name(rawValue: "getWeatherAfterLocationUpdate"), object: nil)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action:#selector(MapVC.handleTap(_:)))
-        tapGesture.delegate = self
-        tapGesture.numberOfTapsRequired = 2
-        mapView.addGestureRecognizer(tapGesture)
+        
     }
     
     @objc func getWeatherAfterLocationUpdate(){
@@ -42,24 +38,30 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
         let region = MKCoordinateRegion(center: locValue, span: MKCoordinateSpan(latitudeDelta: currentZoomScale, longitudeDelta: currentZoomScale))
         let mapCamera = MKMapCamera(lookingAtCenter: locValue, fromDistance: 1000, pitch: 1000, heading: 1000)
         mapView.setCamera(mapCamera, animated: true)
-        
         self.getDoubleTappedLocation(coordinate: locValue, shouldNavigate: false)
-        
         self.mapView.setRegion(region, animated: false)
     }
     
     private func showWeatherAfterAPIRequest(model:WeatherDataResponseModel){
         if currentWeatherView == nil{
-            var v = AWeatherInformationView()
+            let v = AWeatherInformationView()
             self.view.addSubview(v)
             
             v.snp.makeConstraints { (make) in
                 make.left.equalTo(20)
                 make.right.equalTo(-20)
                 make.bottom.equalTo(-20)
-                make.height.equalTo(100)
+                make.height.equalTo(0)
             }
+        
+            v.snp.updateConstraints({ (make) in
+                make.height.equalTo(100)
+            })
             
+            
+            UIView.animate(withDuration: 0.2, delay: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                v.layoutIfNeeded()
+            })
             
             v.model = model
             self.currentWeatherView = v
@@ -75,12 +77,17 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
         mapView.snp.makeConstraints { (make) in
             make.top.bottom.left.right.equalTo(0)
         }
+        
+        //Double Tap Gesture for MapView
+        let tapGesture = UITapGestureRecognizer(target: self, action:#selector(handleDoubleTap(_:)))
+        tapGesture.delegate = self
+        tapGesture.numberOfTapsRequired = 2
+        mapView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func handleTap(_ sender: UIGestureRecognizer)
+    @objc func handleDoubleTap(_ sender: UIGestureRecognizer)
     {
         if sender.state == UIGestureRecognizerState.ended {
-            
             let touchPoint = sender.location(in: mapView)
             let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
             getDoubleTappedLocation(coordinate: touchCoordinate, shouldNavigate: true)
@@ -94,7 +101,7 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
     private func getDoubleTappedLocation(coordinate:CLLocationCoordinate2D, shouldNavigate:Bool){
         APIManager().makeRequest(method: "GET", path: URLConstants.getWeatherDataURL + "?key=153693f66ced48d393b155828182610&q=\(coordinate.latitude),\(coordinate.longitude)", parameters: nil, headers: nil) { (response) in
             guard let json = response.object as? [String:AnyObject] else{
-                //TO-DO alerts
+                self.promptAlert(title: "Error", message: "Error on retrieving weather data from Apixu please try again later", leftButtonTitle: "OK", leftButtonAction: nil, rightButtonTitle: nil, rightButtonAction: nil)
                 return
             }
             if response.isSuccess{
@@ -110,11 +117,11 @@ class MapVC: UIViewController,UIGestureRecognizerDelegate{
                     }
                     
                 }catch{
-                    //TO-DO alert
-                    print(error)
+                    self.promptAlert(title: "Error", message: "Error on retrieving weather data from Apixu please try again later. Error: \(error)", leftButtonTitle: "OK", leftButtonAction: nil, rightButtonTitle: nil, rightButtonAction: nil)
+                    return
                 }
             }else{
-                //TO-DO alert
+                self.promptAlert(title: "Error", message: "Error on retrieving weather data from Apixu please try again later", leftButtonTitle: "OK", leftButtonAction: nil, rightButtonTitle: nil, rightButtonAction: nil)
                 return
             }
         }

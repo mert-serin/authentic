@@ -59,3 +59,17 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
+
+extension UIViewController{
+    func promptAlert(title:String, message:String, leftButtonTitle:String, leftButtonAction:((UIAlertAction) -> Void)?, rightButtonTitle:String?, rightButtonAction:((UIAlertAction) -> Void)?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: leftButtonTitle, style: .cancel, handler: leftButtonAction))
+        if rightButtonTitle != nil{
+            alert.addAction(UIAlertAction(title: rightButtonTitle!, style: .default, handler: rightButtonAction))
+        }
+        
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}

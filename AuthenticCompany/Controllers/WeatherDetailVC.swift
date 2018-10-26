@@ -90,13 +90,15 @@ class WeatherDetailVC: UIViewController {
     
     private func loadDetails(){
         if model != nil{
-            var temp = "https://\(model!.current.condition.icon.dropFirst(2))"
+            var conditionURL = "https://\(model!.current.condition.icon.dropFirst(2))"
             
-            Nuke.loadImage(with: URL(string:temp)!, into: weatherImageView)
+            Nuke.loadImage(with: URL(string:conditionURL)!, into: weatherImageView)
             weatherTypeLabel.text = model!.current.condition.text
             
             weatherLocationLabel.text = model!.location.region + " " + model!.location.name + " ," + model!.location.country
             weatherLabel.text = "\(model!.current.feelsLikeC) °C"
+            
+            navBar.titleLabel.text = model!.location.name
         }
     }
 
