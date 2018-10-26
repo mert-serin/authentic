@@ -15,6 +15,7 @@ class URLConstants {
     private static let _server = URLConstants.getURL()
     private static let _endPoint = "\(_server)"
     
+    static let getWeatherDataURL = "\(_endPoint)/current.json"
     
     private static func getURL() -> String {
         
@@ -26,7 +27,7 @@ class URLConstants {
             return ""
             
         case .Live:
-            return ""
+            return "https://api.apixu.com/v1"
         }
     }
     

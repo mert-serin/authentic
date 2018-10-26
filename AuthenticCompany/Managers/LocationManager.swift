@@ -42,7 +42,7 @@ class LocationManager:NSObject,CLLocationManagerDelegate{
         //If user's location changes more than distanceBetwenCoordinates, we'll send notification to update current location's weather
         if locValue == nil || checkDistance(newLoc: newLoc){
             self.locValue = newLoc
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "updateCurrentLocation"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "getWeatherAfterLocationUpdate"), object: nil)
         }
     }
     
